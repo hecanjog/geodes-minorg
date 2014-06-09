@@ -5,9 +5,6 @@ import json
 
 shortname       = 'sl'
 name            = 'slurp'
-#device          = 'T6_pair1'
-#device      = 'CODEC'
-device      = 'default'
 loop            = True
 
 def play(voice_id):
@@ -21,7 +18,7 @@ def play(voice_id):
 
     speed  = False
     
-    numcycles = dsp.randint(10, 524)
+    numcycles = dsp.randint(10, 100)
 
     # Make breakpoint env with 2-10 vals between 0.1 and 1.0
     curve_a = dsp.breakpoint([1.0] + [dsp.rand(0.1, 1.0) for r in range(dsp.randint(2, 10))] + [0], numcycles)
@@ -31,22 +28,27 @@ def play(voice_id):
     curve_b = dsp.wavetable(dsp.randchoose(curve_types), numcycles)
 
     # Make pan curve - always cosine
-    pan = dsp.wavetable('cos', numcycles)
+    pan = dsp.breakpoint([ dsp.rand() for i in range(dsp.randint(5, 50)) ], numcycles)
+    amps = dsp.breakpoint([ dsp.rand(0.1, 0.75) for i in range(dsp.randint(5, 30)) ], numcycles)
 
     # Multiply breakpoint curve with simple wavetable
     wtable = [ curve_a[i] * curve_b[i] for i in range(numcycles) ]
 
     # Scale to max frequency
-    wtable = [ (f * 19000) + length for f in wtable ]
+    wtable = [ (f * 20000) + length for f in wtable ]
 
     # Possible osc wavetypes
-    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
+    wtypes = ['sine2pi']
+#    wtypes = ['tri', 'sine2pi']
+#    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
 
     if wii is True:
         out = [ dsp.pan(dsp.cycle(wtable[i], dsp.randchoose(wtypes)), pan[i]) for i in range(numcycles) ]
     else:
         wtype = dsp.randchoose(wtypes)
         out = [ dsp.pan(dsp.cycle(wtable[i], wtype), pan[i]) for i in range(numcycles) ]
+
+    out = [ dsp.amp(oo, amps[i]) for i, oo in enumerate(out) ]
 
     out = dsp.amp(''.join(out), volume)
 
