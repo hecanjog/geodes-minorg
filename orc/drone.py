@@ -7,7 +7,6 @@ import json
 
 shortname   = 'dr'
 name        = 'drone'
-device      = 'default'
 loop        = True
 
 def play(voice_id):
@@ -16,7 +15,7 @@ def play(voice_id):
     dsl = P(voice_id, 'drum', 'h.c')
 
     length = int(P(voice_id, 'length', dsp.stf(dsp.rand(5, 12))))
-    volume = P(voice_id, 'volume', 60.0) 
+    volume = P(voice_id, 'volume', 80.0) 
     volume = volume / 100.0 # TODO move into param filter
 
     octave = P(voice_id, 'octave', 3)

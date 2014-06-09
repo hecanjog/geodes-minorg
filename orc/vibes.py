@@ -5,17 +5,20 @@ from pippic.settings import get_param as P
 
 shortname   = 'vi'
 name        = 'vibes'
-device      = 'default'
 
 def play(voice_id):
     bpm = config('bpm')
     beat = dsp.bpm2frames(bpm)
 
+    root = config('key')
+    quality = getattr(tune, config('quality')) 
+    ratios = getattr(tune, config('tune')) 
+
     bar = beat * dsp.randchoose([8, 16, 32])
 
-    root = tune.ntf('c') 
+    groot = tune.ntf('c') 
 
-    scale = tune.fromdegrees([1,3,5,8], root='bb', octave=2, ratios=tune.just)
+    scale = tune.fromdegrees([1,3,5,8], root=root, octave=2, ratios=ratios)
 
     v = dsp.read('sounds/vibesc1.wav').data
 
@@ -34,10 +37,10 @@ def play(voice_id):
 
         nlen /= 2
 
-        note = dsp.transpose(v, (dsp.randchoose(scale) * 2**dsp.randint(0, 2)) / root)
+        note = dsp.transpose(v, (dsp.randchoose(scale) * 2**dsp.randint(0, 2)) / groot)
         note = dsp.fill(note, nlen)
         note = dsp.env(note, 'phasor')
-        note = dsp.amp(note, 0.25)
+        note = dsp.amp(note, 0.125)
 
         nbeats = bar / nlen
         for b in range(nbeats):

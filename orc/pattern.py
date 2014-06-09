@@ -10,10 +10,13 @@ device = 'default'
 
 def play(voice_id):
     bpm = config('bpm')
+    root = config('key')
+    quality = getattr(tune, config('quality')) 
+    ratios = getattr(tune, config('tune')) 
+
     beat = dsp.bpm2frames(bpm)
 
-    root = 'bb'
-    amp = dsp.rand(0.4, 0.85)
+    amp = dsp.rand(0.1, 0.65)
 
     nlens = [
         beat * 4,
@@ -30,7 +33,7 @@ def play(voice_id):
 #    scale = [1,3,4,5,6,8,9]
 #    scale = [1,2,3,5,6,8,9]
 #    scale = [1,5,8]
-    freqs = tune.fromdegrees(scale, root=root, octave=dsp.randint(2,4), ratios=tune.terry)
+    freqs = tune.fromdegrees(scale, root=root, octave=dsp.randint(2,4), ratios=ratios, scale=quality)
 
     # length of pattern (in beats)
     elen = 0

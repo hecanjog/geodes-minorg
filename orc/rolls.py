@@ -27,7 +27,7 @@ def play(voice_id):
     t = dsp.vsplit(toys, dsp.mstf(10), dsp.stf(1))
     t = dsp.randshuffle(t)
     t = t[:40]
-    t = [ dsp.amp(tt, dsp.rand(0.1, 0.75)) for tt in t ]
+    t = [ dsp.amp(tt, dsp.rand(0.1, 0.8)) for tt in t ]
     t = [ dsp.pan(tt, dsp.rand(0, 1)) for tt in t ]
     t = [ dsp.env(tt, 'sine') for tt in t ]
     t = [ dsp.transpose(tt, 0.5) for tt in t ]
@@ -35,7 +35,7 @@ def play(voice_id):
     g = dsp.vsplit(glass2, dsp.mstf(1), dsp.mstf(100))
     g = dsp.randshuffle(g)
     g = g[:40]
-    g = [ dsp.amp(gg, dsp.rand(0.65, 0.85)) for gg in g ]
+    g = [ dsp.amp(gg, dsp.rand(0.35, 0.95)) for gg in g ]
     g = [ dsp.transpose(gg, dsp.rand(0.5, 1.75)) for gg in g ]
     g = [ gg * dsp.randint(1, 8) for gg in g ]
 

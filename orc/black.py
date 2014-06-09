@@ -6,7 +6,6 @@ from pippic.settings import get_param as P
 
 shortname   = 'bl'
 name        = 'black'
-device      = 'default'
 
 def play(voice_id):
     bpm = config('bpm')

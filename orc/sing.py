@@ -3,6 +3,7 @@
 
 from pippi import dsp
 from pippi import tune
+from pippic.settings import config
 import subprocess
 import os
 
@@ -36,8 +37,12 @@ def text2wave(lyrics):
 def singit(lyrics, mult):
     words = text2wave(lyrics)
 
+    root = config('key')
+    quality = getattr(tune, config('quality')) 
+    ratios = getattr(tune, config('tune')) 
+
     pitches = [ dsp.randint(1, 9) for i in range(dsp.randint(2, 4)) ]
-    pitches = tune.fromdegrees(pitches, octave=dsp.randint(1, 4), root='c')
+    pitches = tune.fromdegrees(pitches, octave=dsp.randint(1, 4), root=root, ratios=ratios, scale=quality)
 
     return words
 

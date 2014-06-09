@@ -6,8 +6,6 @@ from pippic.settings import get_param as P
 
 shortname   = 'gu'
 name        = 'guitar'
-#device      = 'CODEC'
-device      = 'default'
 
 def play(voice_id):
     bpm = config('bpm')
@@ -42,7 +40,7 @@ def play(voice_id):
     if alias:
         n = [ dsp.alias(nn) for nn in n ]
 
-    n = [ dsp.amp(nn, dsp.rand(0.6, 1)) for nn in n ]
+    n = [ dsp.amp(nn, dsp.rand(0.1, 0.75)) for nn in n ]
     n = [ dsp.pan(nn, dsp.rand()) for nn in n ]
 
     n = ''.join(n)

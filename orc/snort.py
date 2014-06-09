@@ -9,6 +9,11 @@ name        = 'snort'
 
 def play(voice_id):
     bpm = config('bpm')
+
+    root = config('key')
+    quality = getattr(tune, config('quality')) 
+    ratios = getattr(tune, config('tune')) 
+
     beat = dsp.bpm2frames(bpm)
 
     length = dsp.randint(dsp.stf(1), dsp.stf(3))
