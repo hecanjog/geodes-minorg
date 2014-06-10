@@ -9,7 +9,7 @@ name        = 'black'
 
 def play(voice_id):
     bpm = config('bpm')
-    root = config('key')
+    key = config('key')
     quality = getattr(tune, config('quality')) 
     ratios = getattr(tune, config('tune')) 
 
@@ -17,11 +17,11 @@ def play(voice_id):
     nlen = beat / dsp.randchoose([4,5,6,7,8,9,10])
 
     root = 340.0
-    target = tune.ntf(root)
+    target = tune.ntf(key)
 
     n = dsp.read('sounds/mike.wav').data
     n = dsp.transpose(n, target / root)
-    n = dsp.amp(n, 0.5)
+    n = dsp.amp(n, 0.4)
 
     length = dsp.randint(16, 64) * beat
     ngrains = length / nlen

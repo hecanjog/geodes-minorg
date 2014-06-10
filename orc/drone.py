@@ -15,7 +15,7 @@ def play(voice_id):
     dsl = P(voice_id, 'drum', 'h.c')
 
     length = int(P(voice_id, 'length', dsp.stf(dsp.rand(5, 12))))
-    volume = P(voice_id, 'volume', 80.0) 
+    volume = P(voice_id, 'volume', 70.0) 
     volume = volume / 100.0 # TODO move into param filter
 
     octave = P(voice_id, 'octave', 3)
@@ -24,17 +24,19 @@ def play(voice_id):
     
     hertz = P(voice_id, 'hertz', False)
     alias = P(voice_id, 'alias', False)
+    alias = True
     bend = P(voice_id, 'bend', False)
     env = P(voice_id, 'envelope', 'gauss')
     harmonics = P(voice_id, 'harmonic', '[1,2,3,4]')
     harmonics = json.loads(harmonics)
     reps      = P(voice_id, 'repeats', 1)
-    waveform = P(voice_id, 'waveform', 'tri')
+    waveform = P(voice_id, 'waveform', 'sine2pi')
 
     quality = getattr(tune, config('quality')) 
     ratios = getattr(tune, config('tune')) 
 
     glitch = False
+    #glitch = True
     root = 27.5
     pinecone = False
     bbend = False
@@ -104,6 +106,11 @@ def play(voice_id):
         
         if pinecone != False:
             layer = dsp.pine(layer, length, freq, 4)
+
+        if glitch == True:
+            layer = dsp.vsplit(layer, dsp.mstf(10), dsp.flen(layer) / 4)
+            layer = dsp.randshuffle(layer)
+            layer = ''.join(layer)
 
         layer = dsp.env(layer, env)
 

@@ -8,8 +8,6 @@ from hcj import drums
 
 shortname   = 'cl'
 name        = 'clap'
-#device      = 'CODEC'
-device      = 'default'
 
 c1 = dsp.read('sounds/clap1.wav').data
 c2 = dsp.read('sounds/clap2.wav').data
@@ -18,7 +16,7 @@ tape1 = dsp.read('sounds/tape1.wav').data
 def play(voice_id):
     bpm = config('bpm')
     beat = dsp.bpm2frames(bpm)
-    dsl = P(voice_id, 'drum', '["c"]')
+    dsl = P(voice_id, 'drum', '["c","k","h"]')
     dsp.log(dsl)
     dsl = json.loads(dsl)
 
@@ -107,5 +105,26 @@ def play(voice_id):
 #    out = dsp.randshuffle(out)
 #    out = ''.join(out)
 
+    out = dsp.vsplit(out, 10, 1000)
+    out = [ dsp.amp(o, dsp.rand(0, 4)) for o in out ]
+    out = [ dsp.env(o, 'random') for o in out ]
+    out = [ dsp.transpose(o, dsp.rand(0.25, 1)) for o in out ]
+    out = dsp.randshuffle(out)
+    out = ''.join(out)
+
+    out = dsp.pine(out, int(dsp.flen(out) * dsp.rand(1.5, 4)), dsp.rand(10, 2000), dsp.randint(0, 2), dsp.rand(1, 3), dsp.randint(0, 2), dsp.rand(1, 3)) 
+    out = dsp.amp(out, 0.65)
+
+    glass = dsp.read('sounds/s/glass2.wav').data
+
+    glass = dsp.vsplit(glass, dsp.mstf(1), dsp.mstf(100))
+    glass = dsp.randshuffle(glass)
+    glass = [ dsp.pad(g, 0, dsp.randint(10, 1000)) for g in glass ]
+    glass = [ dsp.transpose(g, dsp.rand(0.5, 1.5)) * dsp.randint(1, 3) for g in glass ]
+    glass = ''.join(glass)
+
+    glass = dsp.fill(glass, dsp.flen(out))
+
+    out = dsp.mix([ out, glass ])
 
     return out

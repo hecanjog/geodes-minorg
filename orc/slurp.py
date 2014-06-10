@@ -10,7 +10,7 @@ loop            = True
 def play(voice_id):
     volume = P(voice_id, 'volume', 100.0)
     volume = volume / 100.0 # TODO: move into param filter
-    volume = volume * 0.25
+    volume = volume * 0.85
     length = P(voice_id, 'length', 40)
     env    = False
     wii    = False
@@ -18,7 +18,7 @@ def play(voice_id):
 
     speed  = False
     
-    numcycles = dsp.randint(10, 100)
+    numcycles = dsp.randint(1, 200)
 
     # Make breakpoint env with 2-10 vals between 0.1 and 1.0
     curve_a = dsp.breakpoint([1.0] + [dsp.rand(0.1, 1.0) for r in range(dsp.randint(2, 10))] + [0], numcycles)
@@ -38,9 +38,11 @@ def play(voice_id):
     wtable = [ (f * 20000) + length for f in wtable ]
 
     # Possible osc wavetypes
-    wtypes = ['sine2pi']
-#    wtypes = ['tri', 'sine2pi']
-#    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
+#    wtypes = ['sine2pi']
+#    wtypes = ['tri', 'sine2pi', 'impulse']
+    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
+
+#    wii = True
 
     if wii is True:
         out = [ dsp.pan(dsp.cycle(wtable[i], dsp.randchoose(wtypes)), pan[i]) for i in range(numcycles) ]

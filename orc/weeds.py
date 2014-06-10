@@ -16,12 +16,12 @@ def play(voice_id):
     quality = getattr(tune, config('quality')) 
     ratios = getattr(tune, config('tune')) 
 
-    scale = [1,6,8,9]
+    scale = [1,5,8]
 
     if dsp.rand() > 0.5:
         scale = reversed(scale)
 
-    freqs = tune.fromdegrees(scale, root=root, octave=dsp.randint(0, 2), ratios=ratios, scale=quality)
+    freqs = tune.fromdegrees(scale, root=root, octave=dsp.randint(1, 3), ratios=ratios, scale=quality)
 
     freqs = dsp.rotate(freqs, dsp.randint(0, len(freqs)))
 
@@ -29,9 +29,9 @@ def play(voice_id):
 
     length = int(dsp.bpm2frames(bpm) * dsp.randchoose([0.25, 0.5, 1]) * 0.5) 
     length = dsp.bpm2frames(bpm) * 4
-    length = dsp.stf(dsp.rand(0.05, 0.5))
+    length = dsp.stf(dsp.rand(1, 8))
     for n in range(dsp.randint(1, 3)):
-        amp = dsp.rand(0.5, 1)
+        amp = dsp.rand(0.3, 0.65)
         freq = dsp.randchoose(freqs)
         freq = freqs[n%len(freqs)]
         b = keys.chippy(length=length, freq=freq, amp=amp)
