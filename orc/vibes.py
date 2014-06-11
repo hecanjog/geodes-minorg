@@ -18,14 +18,14 @@ def play(voice_id):
 
     groot = tune.ntf('c') 
 
-    scale = tune.fromdegrees([1,3,5,8], root=root, octave=2, ratios=ratios)
+    scale = tune.fromdegrees([1,3,5,6,8,9], root=root, octave=2, ratios=ratios)
 
     v = dsp.read('sounds/vibesc1.wav').data
 
     out = ''
 
-    lens = [ bar / 5, bar / 8, bar / 12 ]
-#    lens = [ bar / 6, bar / 8, bar / 16 ]
+#    lens = [ bar / 5, bar / 8, bar / 12 ]
+    lens = [ bar / 6, bar / 8, bar / 16 ]
 
     maxbend = 2
     maxbend = 0.02
@@ -37,7 +37,7 @@ def play(voice_id):
 
         nlen /= 2
 
-        note = dsp.transpose(v, (dsp.randchoose(scale) * 2**dsp.randint(0, 2)) / groot)
+        note = dsp.transpose(v, (dsp.randchoose(scale) * 2**dsp.randint(0, 3)) / groot)
         note = dsp.fill(note, nlen)
         note = dsp.env(note, 'phasor')
         note = dsp.amp(note, 0.125)

@@ -10,11 +10,11 @@ loop            = True
 def play(voice_id):
     volume = P(voice_id, 'volume', 100.0)
     volume = volume / 100.0 # TODO: move into param filter
-    volume = volume * 0.85
+    volume = volume * 0.65
     length = P(voice_id, 'length', 40)
     env    = False
     wii    = False
-    wii    = True
+#    wii    = True
 
     speed  = False
     
@@ -38,11 +38,9 @@ def play(voice_id):
     wtable = [ (f * 20000) + length for f in wtable ]
 
     # Possible osc wavetypes
-#    wtypes = ['sine2pi']
+    wtypes = ['sine2pi']
 #    wtypes = ['tri', 'sine2pi', 'impulse']
-    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
-
-#    wii = True
+#    wtypes = ['impulse', 'tri', 'cos', 'sine2pi', 'vary']
 
     if wii is True:
         out = [ dsp.pan(dsp.cycle(wtable[i], dsp.randchoose(wtypes)), pan[i]) for i in range(numcycles) ]

@@ -119,8 +119,8 @@ def play(voice_id):
 
     glass = dsp.vsplit(glass, dsp.mstf(1), dsp.mstf(100))
     glass = dsp.randshuffle(glass)
-    glass = [ dsp.pad(g, 0, dsp.randint(10, 1000)) for g in glass ]
-    glass = [ dsp.transpose(g, dsp.rand(0.5, 1.5)) * dsp.randint(1, 3) for g in glass ]
+#    glass = [ dsp.pad(g, 0, dsp.randint(10, 1000)) for g in glass ]
+#    glass = [ dsp.transpose(g, dsp.rand(0.5, 1.5)) * dsp.randint(1, 3) for g in glass ]
     glass = ''.join(glass)
 
     glass = dsp.fill(glass, dsp.flen(out))
